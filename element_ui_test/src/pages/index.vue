@@ -1,6 +1,9 @@
 <template>
 	<div class="index">
-		<h1>123</h1>
+		<el-button @click="showPop()">Button</el-button>
+	    <!-- <el-dialog :visible.sync="visible" title="Hello world">
+	      	<p>Try Element</p>
+	    </el-dialog> -->
 	</div>
 </template>
 <script>
@@ -19,7 +22,13 @@
         },
         methods: {
         	showPop() {
-        		this.visible = true;
+        		// this.visible = true;
+				this.$router.push({
+					name: 'sidebar',
+					query: {
+
+					}
+				})
         	}
         }
 	}
