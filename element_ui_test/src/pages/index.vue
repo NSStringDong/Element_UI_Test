@@ -24,7 +24,7 @@
         	showPop() {
         		// this.visible = true;
 				this.$router.push({
-					name: 'sidebar',
+					name: 'home',
 					query: {
 
 					}

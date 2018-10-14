@@ -6,6 +6,7 @@
 				<ul class="user-ul">
 					<li><a href="">首页</a></li>
 					<li><a href="">name</a></li>
+					<li><a href="">消息</a></li>
 					<li><a href="">退出</a></li>
 				</ul>
 			</div>

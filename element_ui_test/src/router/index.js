@@ -1,9 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 // import HelloWorld from '@/components/HelloWorld'
-import index from '@/pages/index'
-import header from '@/common/header'
-import sidebar from '@/common/sidebar'
 // const index = r => require.ensure([], () => r(require('~pages/index')), 'index')
 Vue.use(Router)
 
@@ -17,23 +14,17 @@ export default new Router({
     {
 	    path: '/index',
 	    name: 'index',
-	    component: index,
+	    component: resolve => require(['../pages/index.vue'], resolve),
 	    meta: {
 	        title: '首页'
 	    }
-	}, {
-		path: '/header',
-		name: 'header',
-		component: header,
+	},
+	{
+		path: '/home',
+		name: 'home',
+		component: resolve => require(['../common/home.vue'], resolve),
 		meta: {
-			title: ''
-		}
-	}, {
-		path: '/sidebar',
-		name: 'sidebar',
-		component: sidebar,
-		meta: {
-			title: ''
+			title: '小绿人管理系统'
 		}
 	}
   ]

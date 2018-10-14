@@ -18,5 +18,11 @@ module.exports = {
     source: 'src',
     img: 'src',
     image: 'xlink:href'
+  },
+  resolve: {
+    extensions: ['', '.js', '.css', '.scss','.vue'],
+    alias: {
+      'vue$': '../node_modules/vue/dist/vue.js'
+    }
   }
 }

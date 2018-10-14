@@ -282,8 +282,7 @@
 		},
 		computed:{
             onRoutes(){
-                // return this.$route.path.replace('/','');
-                return;
+                return this.$route.path.replace('/','');
             }
         },
         methods: {
@@ -294,9 +293,9 @@
 <style>
 	.sidebar{
         display: block;
-        position: absolute;
-        left: 0;
-        top: 70px;
+        /*position: absolute;*/
+        /*left: 0;*/
+        /*top: 70px;*/
         bottom:0;
         overflow-y: scroll;
     }
