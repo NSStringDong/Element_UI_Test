@@ -28,7 +28,7 @@
         }
 	}
 </script>
-<style type="text/css">
+<style>
 	.wrapper {
       	width: 100%;
       	height: 100%;
