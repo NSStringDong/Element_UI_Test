@@ -29,6 +29,10 @@
 		width: 100%;
 		background-color: #fff;
 		border-bottom: 1px solid #ebebeb;
+		position: relative;
+        -webkit-box-sizing: border-box;
+        box-sizing: border-box;
+        position: relative;
 	}
 	.logo {
 		width: 200px;

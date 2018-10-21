@@ -8,9 +8,20 @@ import router from './router'
 
 Vue.use(ElementUI)
 // Vue.config.productionTip = false
+router.beforeEach((to, from, next) => {
+    
+})
 
 /* eslint-disable no-new */
 new Vue({
-  router,
-  render: h=>h(App)
+  	router,
+  	render: h=>h(App),
+  	async created() {
+  		this.initUser();
+  	},
+  	methods: {
+  		initUser() {
+
+  		}
+  	}
 }).$mount('#app');

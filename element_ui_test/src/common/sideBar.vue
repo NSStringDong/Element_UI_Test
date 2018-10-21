@@ -293,9 +293,9 @@
 <style>
 	.sidebar{
         display: block;
-        /*position: absolute;*/
-        /*left: 0;*/
-        /*top: 70px;*/
+        position: absolute;
+        left: 0;
+        top: 73px;
         bottom:0;
         overflow-y: scroll;
     }

@@ -7,24 +7,33 @@ Vue.use(Router)
 export default new Router({
   routes: [
     {
-      path: '/',
-      redirect: '/main',
+      	path: '/',
+      	redirect: '/main'
     },
-    {
+    /*{
 	    path: '/index',
 	    name: 'index',
 	    component: resolve => require(['../pages/index.vue'], resolve),
 	    meta: {
 	        title: '首页'
 	    }
-	},
+	},*/
 	{
-		path: '/home',
+		path: '/',
 		name: 'home',
 		component: resolve => require(['../common/home.vue'], resolve),
 		meta: {
 			title: '小绿人管理系统'
-		}
+		},
+		children: [
+			{
+				path: '/main',
+				component: resolve => require(['../pages/main.vue'], resolve),
+				meta: { 
+					title: '系统首页' 
+				}
+            },
+		]
 	}
   ]
 })
