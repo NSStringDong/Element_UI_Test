@@ -1,31 +1,31 @@
 import {axiosConifg} from './assets/js/httpConfig.js'
 import axios from 'axios'
 
-
-
-let axiosIns = axios.create({});
-
+const httpSet = axios.create({
+    baseUrl: config.baseUrl,
+    timeout: config.timeout
+});
 //设置使用cookies
-axiosIns.defaults.withCredentials = true;
+httpSet.defaults.withCredentials = true;
 
-axiosIns.defaults.headers.post['X-Requested-With'] = 'XMLHttpRequest';
+httpSet.defaults.headers.post['X-Requested-With'] = 'XMLHttpRequest';
 
-axiosIns.defaults.headers.get['X-Requested-With'] = 'XMLHttpRequest';
+httpSet.defaults.headers.get['X-Requested-With'] = 'XMLHttpRequest';
 
-axiosIns.defaults.responseType = 'json';
+httpSet.defaults.responseType = 'json';
 
-axiosIns.defaults.transformRequest = [
+httpSet.defaults.transformRequest = [
 	function (data) {
     	//数据序列化
     	return qs.stringify(data);
 	}
 ];
 
-axiosIns.defaults.validateStatus = function (status) {
+httpSet.defaults.validateStatus = function (status) {
     return true;
 };
 //配置请求头信息
-axiosIns.interceptors.request.use(function (config) {
+httpSet.interceptors.request.use(config => {
     //配置config
     config.headers.Accept = 'application/json';
     // config.headers.System = 'vue';
@@ -34,62 +34,41 @@ axiosIns.interceptors.request.use(function (config) {
     //     config.headers.Token = token;
     // }
     return config;
+},error => {
+    app.$vux.toast.show({
+        type: 'warn',
+        text: error
+    });
+    Promise.reject(error);
 });
-axiosIns.interceptors.response.use(function (response) {
-    let data = response.data;
-    let status = response.status;
-    if (status === 200) {
-        return Promise.resolve(response);
-    } else {
-        return Promise.reject(response);
+/****** respone拦截器==>对响应做处理 ******/
+httpSet.interceptors.response.use(
+    response => {//成功请求到数据
+        //app.$vux.loading.hide();
+        //这里根据后端提供的数据进行对应的处理
+        if (response.data.result === 'TRUE') {
+            return response.data;
+        } else {
+            // app.$vux.toast.show({  //常规错误处理
+            //     type: 'warn',
+            //     text: response.data.data.msg
+            // });
+        }
+    },
+    error => {
+        console.log('error');
+        console.log(error);
+        console.log(JSON.stringify(error));
+ 
+        let text = JSON.parse(JSON.stringify(error)).response.status === 404
+            ? '404'
+            : '网络异常，请重试';
+        // app.$vux.toast.show({
+        //     type: 'warn',
+        //     text: text
+        // });
+ 
+        return Promise.reject(error)
     }
-});
-let ajaxMethod = ['get', 'post'];
-let api = {};
-
-function httpRequest (opt) {
-	
-}
-ajaxMethod.forEach((method)=> {
-    //数组取值的两种方式
-    api[method] = function (uri, data, config) {
-        return new Promise(function (resolve, reject) {
-            axiosIns[method](axiosConifg.baseUrl+uri, data, config).then((response)=> {
-            	/*
-                if (response.data.StatusCode) {
-                    //toast封装：  参考ele-mint-ui
-                    Toast({
-                        message: response.data.Message,
-                        position: 'top',
-                        duration: 2000
-                    });
-                    if (response.data.Message === '未登录') {
-                        Toast({
-                            message: response.data.Message,
-                            position: '',
-                            duration: 2000
-                        });
-                        //使用vue实例做出对应行为  change state or router
-                        //instance.$store.commit('isLoginShow',true);
-                    }
-                } else {
-                    resolve(response);
-                }
-                */
-            }).catch((response)=> {
-                //reject response
-                //alert('xiuxiu，限你10分钟到我面前来,不然...');
-            })
-        })
-    }
-});
-//this.$axios.post(url,config).then((res) => {console.log(res)})
-function checkErrCode(data) {
-    //toast.close();
-    if (data.errorCode < 0) {
-        //dialog({message: data.msg});
-        return false;
-    } else {
-        return Promise.resolve(data.data?data.data:'ok');
-    }
-}
+);
+export default httpSet;
