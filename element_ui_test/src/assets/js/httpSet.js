@@ -1,4 +1,4 @@
-import {axiosConifg} from './assets/js/httpConfig.js'
+import {axiosConifg} from '../js/httpConfig.js'
 import axios from 'axios'
 
 const httpSet = axios.create({
@@ -17,7 +17,7 @@ httpSet.defaults.responseType = 'json';
 httpSet.defaults.transformRequest = [
 	function (data) {
     	//数据序列化
-    	return qs.stringify(data);
+    	return JSON.stringify(data);
 	}
 ];
 
@@ -35,10 +35,12 @@ httpSet.interceptors.request.use(config => {
     // }
     return config;
 },error => {
+    /*
     app.$vux.toast.show({
         type: 'warn',
         text: error
     });
+    */
     Promise.reject(error);
 });
 /****** respone拦截器==>对响应做处理 ******/

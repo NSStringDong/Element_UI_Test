@@ -5,10 +5,10 @@ import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import App from './App'
 import router from './router'
-
+import {httpRequest} from './assets/js/httpRequest.js'
 
 Vue.use(ElementUI)
-
+Vue.prototype.$http = httpRequest;
 
 
 //Vue.prototype.$http = axios;

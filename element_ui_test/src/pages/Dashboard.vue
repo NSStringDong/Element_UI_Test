@@ -78,6 +78,7 @@
 	</div>
 </template>
 <script type="text/javascript">
+    import {httpRequest} from '../assets/js/httpRequest.js'
 	export default {
 		name: 'dashboard',
 		data() {
