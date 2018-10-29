@@ -6,10 +6,12 @@ import 'element-ui/lib/theme-chalk/index.css'
 import App from './App'
 import router from './router'
 import {httpRequest} from './assets/js/httpRequest.js'
+import {Message,Loading} from 'element-ui'
 
 Vue.use(ElementUI)
 Vue.prototype.$http = httpRequest;
-
+Vue.prototype.$message = Message;
+Vue.prototype.$loading = Loading;
 
 //Vue.prototype.$http = axios;
 //Vue.prototype.$axios = api;

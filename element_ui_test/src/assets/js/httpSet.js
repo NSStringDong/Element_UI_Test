@@ -1,9 +1,10 @@
-import {axiosConifg} from '../js/httpConfig.js'
+import {axiosConifg} from './httpConfig.js'
 import axios from 'axios'
+import {Message} from 'element-ui'
 
 const httpSet = axios.create({
-    baseUrl: config.baseUrl,
-    timeout: config.timeout
+    baseUrl: axiosConifg.baseUrl,
+    timeout: axiosConifg.timeout
 });
 //设置使用cookies
 httpSet.defaults.withCredentials = true;
@@ -34,13 +35,14 @@ httpSet.interceptors.request.use(config => {
     //     config.headers.Token = token;
     // }
     return config;
-},error => {
+},erroror => {
     /*
     app.$vux.toast.show({
         type: 'warn',
         text: error
     });
     */
+    this.$message.error(error);
     Promise.reject(error);
 });
 /****** respone拦截器==>对响应做处理 ******/
@@ -48,28 +50,74 @@ httpSet.interceptors.response.use(
     response => {//成功请求到数据
         //app.$vux.loading.hide();
         //这里根据后端提供的数据进行对应的处理
-        if (response.data.result === 'TRUE') {
-            return response.data;
+        const data = response.data;
+        if (data.errorCode >= 0) {
+            return data;
+        } else if (data.errorCode == -100) {
+            console.log('请登录')
         } else {
-            // app.$vux.toast.show({  //常规错误处理
-            //     type: 'warn',
-            //     text: response.data.data.msg
-            // });
+            //this.$message.error(data.msg);
+            this.$message({
+                showClose: true,
+                message: data.msg,
+                type: 'error'
+            });
         }
     },
-    error => {
-        console.log('error');
-        console.log(error);
+    erroror => {
+        console.log('erroror');
+        console.log(erroror);
         console.log(JSON.stringify(error));
- 
-        let text = JSON.parse(JSON.stringify(error)).response.status === 404
-            ? '404'
-            : '网络异常，请重试';
-        // app.$vux.toast.show({
-        //     type: 'warn',
-        //     text: text
-        // });
- 
+        
+        if (error && error.response) {
+            switch (error.response.status) {
+                case 400:
+                    error.message = '请求参数错误'
+                    break
+
+                case 401:
+                    error.message = '未授权，请登录'
+                    break
+
+                case 403:
+                    error.message = '跨域拒绝访问'
+                    break
+
+                case 404:
+                    error.message = `请求地址出错: ${error.response.config.url}`
+                    break
+
+                case 408:
+                    error.message = '请求超时'
+                    break
+
+                case 500:
+                    error.message = '服务器内部错误'
+                    break
+
+                case 501:
+                    error.message = '服务未实现'
+                    break
+
+                case 502:
+                    error.message = '网关错误'
+                    break
+
+                case 503:
+                    error.message = '服务不可用'
+                    break
+
+                case 504:
+                    error.message = '网关超时'
+                    break
+
+                case 505:
+                    error.message = 'HTTP版本不受支持'
+                    break
+
+                default:
+            }
+        }
         return Promise.reject(error)
     }
 );

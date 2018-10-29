@@ -2,7 +2,10 @@ import Vue from 'vue';
 import Router from 'vue-router';
 // import HelloWorld from '@/components/HelloWorld'
 const home = r => require.ensure([], () => r(require('../common/home.vue')), 'home');
+
 const dashboard = r => require.ensure([], () => r(require('../pages/dashboard.vue')), 'dashboard');
+
+const partnerList = r => require.ensure([], () => r(require('../pages/partnerList.vue')), 'partnerList');
 Vue.use(Router);
 
 export default new Router({
@@ -30,7 +33,16 @@ export default new Router({
 			{
 				path: '/dashboard',
                 component: dashboard,
-                meta: { title: '系统首页' }
+                meta: { 
+                	title: '系统首页' 
+                }
+            },
+            {
+            	path: '/partnerList',
+            	component: partnerList,
+            	meta: {
+            		title: '合作伙伴'
+            	}
             }
 		]
 	}

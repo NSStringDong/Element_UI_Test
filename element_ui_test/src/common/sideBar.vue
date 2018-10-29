@@ -30,7 +30,7 @@
                         title: '运营管理',
                         subs: [
                             {
-                                index: 'partner',
+                                index: 'partnerList',
                                 title: '合作伙伴'
                             },
                             {

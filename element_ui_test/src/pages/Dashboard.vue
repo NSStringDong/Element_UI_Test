@@ -83,8 +83,11 @@
 		name: 'dashboard',
 		data() {
 			return {
-
+                
 			}
-		}
+		},
+        created() {
+            this.$message.error('data.msg');
+        }
 	}
 </script>
