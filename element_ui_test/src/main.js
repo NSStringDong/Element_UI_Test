@@ -7,6 +7,7 @@ import App from './App'
 import router from './router'
 import {httpRequest} from './assets/js/httpRequest.js'
 import {Message,Loading} from 'element-ui'
+import {userInfoData} from './assets/js/initUser.js'
 
 Vue.use(ElementUI)
 Vue.prototype.$http = httpRequest;
@@ -22,7 +23,7 @@ router.beforeEach((to, from, next) => {
    		method: 'GET',
    		data: ''
    	}).then((res) => {
-   		console.info('数据：'+res);
+   		//console.log('数据：'+res.balance);
    		if ((res == ''||res=='undefined'||res==null) && to.path !== '/login') {
    			next('/login');
    		}else{

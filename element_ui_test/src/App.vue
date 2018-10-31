@@ -1,3 +1,6 @@
+<style>
+	@import "./assets/css/main.css"
+</style>
 <template>
     <div id="app">
        <router-view/>
