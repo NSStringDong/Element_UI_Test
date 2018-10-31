@@ -6,6 +6,8 @@ const home = r => require.ensure([], () => r(require('../common/home.vue')), 'ho
 const dashboard = r => require.ensure([], () => r(require('../pages/dashboard.vue')), 'dashboard');
 
 const partnerList = r => require.ensure([], () => r(require('../pages/partnerList.vue')), 'partnerList');
+
+const login = r => require.ensure([], () => r(require('../pages/login.vue')), 'login');
 Vue.use(Router);
 
 export default new Router({
@@ -45,6 +47,10 @@ export default new Router({
             	}
             }
 		]
+	},
+	{
+		path: '/login',
+		component: login
 	}
   ]
 })

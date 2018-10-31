@@ -3,7 +3,7 @@ import axios from 'axios'
 import {Message} from 'element-ui'
 
 const httpSet = axios.create({
-    baseUrl: axiosConifg.baseUrl,
+    baseURL: axiosConifg.baseUrl,
     timeout: axiosConifg.timeout
 });
 //设置使用cookies

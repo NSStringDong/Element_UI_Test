@@ -8,7 +8,7 @@ export function httpRequest(opt) {
 			method: config.method,
 			params: config.data
 		}).then((res)=>{
-			console.info("then", res)
+			console.info("get-then", res)
       		return Promise.resolve(res.data)
 		}).catch(function (error) {
 	      console.info("error", error)
@@ -20,7 +20,7 @@ export function httpRequest(opt) {
 			method: config.method,
 			data: config.data
 		}).then((res)=>{
-			console.info("then", res)
+			console.info("post-then", res)
       		return Promise.resolve(res.data)
 		}).catch(function (error) {
 	      console.info("error", error)

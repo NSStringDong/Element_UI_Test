@@ -17,12 +17,18 @@ Vue.prototype.$loading = Loading;
 //Vue.prototype.$axios = api;
 // Vue.config.productionTip = false
 router.beforeEach((to, from, next) => {
-    /*
-    api.get('systemUser/getUserInfo.json',"","").then((res) => {
-    	console.log(res);
-    });
-    */
-    next();
+   	httpRequest({
+   		url: "systemUser/getUserInfo.json",
+   		method: 'GET',
+   		data: ''
+   	}).then((res) => {
+   		console.info('数据：'+res);
+   		if ((res == ''||res=='undefined'||res==null) && to.path !== '/login') {
+   			next('/login');
+   		}else{
+   			next();
+   		}
+   	});
 })
 
 /* eslint-disable no-new */
