@@ -1,6 +1,7 @@
 // The Vue build version to load with the `import` command
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
+import '../theme/index.css'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import App from './App'
@@ -8,11 +9,13 @@ import router from './router'
 import {httpRequest} from './assets/js/httpRequest.js'
 import {Message,Loading} from 'element-ui'
 import {userInfoData} from './assets/js/initUser.js'
+import md5 from 'js-md5'
 
 Vue.use(ElementUI)
 Vue.prototype.$http = httpRequest;
 Vue.prototype.$message = Message;
 Vue.prototype.$loading = Loading;
+Vue.prototype.$md5 = md5;
 
 //Vue.prototype.$http = axios;
 //Vue.prototype.$axios = api;

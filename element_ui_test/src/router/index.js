@@ -16,14 +16,6 @@ export default new Router({
       	path: '/',
       	redirect: '/dashboard'
     },
- //    {
-	//     path: '/index',
-	//     name: 'index',
-	//     component: resolve => require(['../pages/index.vue'], resolve),
-	//     meta: {
-	//         title: '首页'
-	//     }
-	// },
 	{
 		path: '/',
 		//component: resolve => require(['../common/home.vue'], resolve),
