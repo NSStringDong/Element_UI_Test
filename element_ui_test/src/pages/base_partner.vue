@@ -89,7 +89,7 @@
       				</template>
     			</el-table-column>
   			</el-table>
-  			<v-page @pageTurn="getPartnerList()"></v-page>
+  			<v-page @pageTurn="getPartnerList"></v-page>
 		</div>
 	</div>
 	
@@ -158,11 +158,12 @@
 			 * 获取合作伙伴列表
 			 * @param  {int} page 当前页数
 			 */
-			getPartnerList(page) {
+			getPartnerList(currentPage) {
+				console.log('当前页：'+currentPage);
 				var self = this;
 				var requestData = {
 					num: 20,
-					page: page
+					page: currentPage
 				}
 				if (self.key) {
 					requestData.key = self.key;

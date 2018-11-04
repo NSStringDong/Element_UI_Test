@@ -37,10 +37,10 @@
 	<div class="page-div">
 		<ul class="pager">
 			<li v-if="currentPage==1" @click="firstPage()">首页</li>
-			<li v-if="currentPage==1" @click="lastPage()">上一页</li>
+			<li @click="lastPage()">上一页</li>
 			<li><input type="text" v-model="inputPage"></li>
 			<li @click="nextPage()">下一页</li>
-			<li @click="finalPage()">尾页</li>
+			<!-- <li @click="finalPage()">尾页</li> -->
 			<li @click="designatedPage()">转到</li>
 		</ul>
 	</div>
@@ -67,12 +67,14 @@
 			 */
 			firstPage() {
 				this.currentPage == 1;
+				this.$emit('pageTurn', this.currentPage);
 			},
 			/**
 			 * 上一页
 			 */
 			lastPage() {
 				this.currentPage --;
+				this.$emit('pageTurn', this.currentPage);
 			},
 			/**
 			 * 下一页
@@ -92,6 +94,7 @@
 			 */
 			designatedPage() {
 				this.currentPage == this.inputPage;
+				this.$emit('pageTurn', this.currentPage);
 			}
 		}
 	}
