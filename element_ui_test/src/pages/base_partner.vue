@@ -89,7 +89,7 @@
       				</template>
     			</el-table-column>
   			</el-table>
-  			<v-page></v-page>
+  			<v-page @pageTurn="getPartnerList()"></v-page>
 		</div>
 	</div>
 	

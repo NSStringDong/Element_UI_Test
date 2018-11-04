@@ -54,10 +54,15 @@ httpSet.interceptors.response.use(
         if (data.errorCode >= 0) {
             return data;
         } else if (data.errorCode == -100) {
-            console.log('请登录')
+            //console.log('请登录')
+            Message({
+                showClose: true,
+                message: data.msg,
+                type: 'error'
+            });
         } else {
             //this.$message.error(data.msg);
-            this.$message({
+            Message({
                 showClose: true,
                 message: data.msg,
                 type: 'error'
