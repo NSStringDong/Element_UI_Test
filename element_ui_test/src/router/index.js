@@ -8,6 +8,7 @@ const dashboard = r => require.ensure([], () => r(require('../pages/dashboard.vu
 const partnerList = r => require.ensure([], () => r(require('../pages/base_partner.vue')), 'partnerList');
 
 const login = r => require.ensure([], () => r(require('../pages/login.vue')), 'login');
+
 Vue.use(Router);
 
 export default new Router({

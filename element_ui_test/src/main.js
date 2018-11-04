@@ -10,6 +10,7 @@ import {httpRequest} from './assets/js/httpRequest.js'
 import {Message,Loading} from 'element-ui'
 import {userInfoData} from './assets/js/initUser.js'
 import md5 from 'js-md5'
+import * as filters from './filters/index.js'
 
 Vue.use(ElementUI)
 Vue.prototype.$http = httpRequest;
@@ -17,9 +18,11 @@ Vue.prototype.$message = Message;
 Vue.prototype.$loading = Loading;
 Vue.prototype.$md5 = md5;
 
-//Vue.prototype.$http = axios;
-//Vue.prototype.$axios = api;
-// Vue.config.productionTip = false
+//遍历filters,绑定到全局
+Object.keys(filters).forEach((item) => {
+    Vue.filter(item, filters[item]);
+});
+
 router.beforeEach((to, from, next) => {
 	if (to.path === '/login') {
 		next();
@@ -29,7 +32,6 @@ router.beforeEach((to, from, next) => {
 	   		method: 'GET',
 	   		data: ''
 	   	}).then((res) => {
-	   		//console.log('数据：'+res.balance);
 	   		if (res == ''||res=='undefined'||res==null) {
 	   			next('/login');
 	   		}else{
