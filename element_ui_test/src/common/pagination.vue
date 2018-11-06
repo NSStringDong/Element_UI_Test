@@ -36,8 +36,8 @@
 <template>
 	<div class="page-div">
 		<ul class="pager">
-			<li v-if="currentPage==1" @click="firstPage()">首页</li>
-			<li @click="lastPage()">上一页</li>
+			<li v-if="currentPage!=1" @click="firstPage()">首页</li>
+			<li v-if="currentPage!=1" @click="lastPage()">上一页</li>
 			<li><input type="text" v-model="inputPage"></li>
 			<li @click="nextPage()">下一页</li>
 			<!-- <li @click="finalPage()">尾页</li> -->
@@ -56,32 +56,37 @@
 			}
 		},
 		created() {
-
+			this.inputPage = this.currentPage;
 		},
 		watch: {
-
+			currentPage: function(val) {
+				if (val) {
+					this.$emit('pageTurn', val);
+				}
+			}
 		},
 		methods: {
 			/**
 			 * 去首页
 			 */
 			firstPage() {
-				this.currentPage == 1;
-				this.$emit('pageTurn', this.currentPage);
+				this.currentPage = 1;
+				this.inputPage = 1;
 			},
 			/**
 			 * 上一页
 			 */
 			lastPage() {
 				this.currentPage --;
-				this.$emit('pageTurn', this.currentPage);
+				this.inputPage = this.currentPage;
+				//this.$set(this.$data, 'inputPage', this.currentPage);
 			},
 			/**
 			 * 下一页
 			 */
 			nextPage() {
 				this.currentPage ++;
-				this.$emit('pageTurn', this.currentPage);
+				this.inputPage = this.currentPage;
 			},
 			/**
 			 * 尾页
@@ -93,8 +98,7 @@
 			 * 指定页面
 			 */
 			designatedPage() {
-				this.currentPage == this.inputPage;
-				this.$emit('pageTurn', this.currentPage);
+				this.currentPage = this.inputPage;
 			}
 		}
 	}
