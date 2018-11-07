@@ -26,53 +26,53 @@ httpSet.defaults.validateStatus = function (status) {
     return true;
 };
 //配置请求头信息
-httpSet.interceptors.request.use(config => {
-    //配置config
-    config.headers.Accept = 'application/json';
-    // config.headers.System = 'vue';
-    // let token = Vue.localStorage.get('token');
-    // if(token){
-    //     config.headers.Token = token;
-    // }
-    return config;
-},erroror => {
-    /*
-    app.$vux.toast.show({
-        type: 'warn',
-        text: error
-    });
-    */
-    this.$message.error(error);
-    Promise.reject(error);
-});
+httpSet.interceptors.request.use(
+    config => {
+        //配置config
+        config.headers.Accept = 'application/json';
+        return config;
+    },
+    error => {
+        this.$message.error(error);
+        Promise.reject(error);
+    }
+);
 /****** respone拦截器==>对响应做处理 ******/
 httpSet.interceptors.response.use(
-    response => {//成功请求到数据
+    function(response){//成功请求到数据
         //app.$vux.loading.hide();
         //这里根据后端提供的数据进行对应的处理
-        const data = response.data;
-        if (data.errorCode >= 0) {
-            return data;
-        } else if (data.errorCode == -100) {
-            //console.log('请登录')
-            Message({
-                showClose: true,
-                message: data.msg,
-                type: 'error'
-            });
+        if (response.status == 200) {
+            const data = response.data;
+            if (data.errorCode >= 0) {
+                return data;
+            } else if (data.errorCode == -100) {
+                //console.log('请登录')
+                Message({
+                    showClose: true,
+                    message: data.msg,
+                    type: 'error'
+                });
+            } else {
+                //this.$message.error(data.msg);
+                Message({
+                    showClose: true,
+                    message: data.msg,
+                    type: 'error'
+                });
+            }
         } else {
-            //this.$message.error(data.msg);
-            Message({
-                showClose: true,
-                message: data.msg,
-                type: 'error'
-            });
+            console.info('请求返回:'+JSON.stringify(response));
+            const err = new Error();
+            err.data = response.data;
+            err.response = response;
+            throw err;
         }
     },
-    erroror => {
-        console.log('erroror');
-        console.log(erroror);
-        console.log(JSON.stringify(error));
+    function(error){
+        console.log('123error');
+        console.info(error);
+        console.info(JSON.stringify(error));
         
         if (error && error.response) {
             switch (error.response.status) {
@@ -122,6 +122,7 @@ httpSet.interceptors.response.use(
 
                 default:
             }
+            Message.error(error.message);
         }
         return Promise.reject(error)
     }

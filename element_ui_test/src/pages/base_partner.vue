@@ -29,6 +29,9 @@
 		float: right;
 		margin-right: 16px;
 	}
+	.el-form input {
+		width: 320px;
+	}
 	.el-input :focus {
 		border: 1px solid #65be01;
 	}
@@ -75,14 +78,14 @@
     					<p>{{scope.row.settlementType | getProrationType}}</p>
     				</template>
     			</el-table-column>
-    			<el-table-column align="center" label="分成比例">
+    			<!-- <el-table-column align="center" label="分成比例">
     				<template slot-scope="scope">
     					<p>{{scope.row.proration | getProration}}</p>
     				</template>
     			</el-table-column>
     			<el-table-column align="center" prop="unit" label="单位金额"></el-table-column>
     			<el-table-column align="center" prop="email" label="邮箱"></el-table-column>
-    			<el-table-column align="center" prop="comment" label="备注"></el-table-column>
+    			<el-table-column align="center" prop="comment" label="备注"></el-table-column> -->
     			<el-table-column align="center" label="操作" width="100">
       				<template slot-scope="scope">
         				<el-button type="text" icon="el-icon-view" @click="goToDetail(scope.row)" size="small">详情</el-button>
@@ -92,9 +95,9 @@
   			<v-page @pageTurn="getPartnerList"></v-page>
 		</div>
 		<el-dialog title="新建合作伙伴" :visible.sync="isNew" center width="30%">
-  			<el-form>
-	    		<el-form-item v-model="partnerName" label="名称" :label-width="formLabelWidth">
-	      			<el-input autocomplete="off"></el-input>
+  			<el-form >
+	    		<el-form-item label="名称" :label-width="formLabelWidth">
+	      			<el-input v-model="partnerName" autocomplete="off"></el-input>
 	    		</el-form-item>
 	    		<el-form-item label="伙伴类型" :label-width="formLabelWidth">
 	      			<el-select v-model="coo_type" placeholder="请选择">
@@ -107,12 +110,38 @@
 	    			</el-select>
 	    		</el-form-item>
 	    		<el-form-item label="分成方式" :label-width="formLabelWidth">
-	    			
+	    			<el-select v-model="proration_type" placeholder="请选择">
+	    				<el-option v-for="item in prorationTypeDic" :key="item.value" :label="item.text" :value="item.value"></el-option>
+	    			</el-select>
+	    		</el-form-item>
+	    		<el-form-item v-if="proration_type==1" label="分成比例" :label-width="formLabelWidth">
+	      			<el-input v-model="proration" autocomplete="off"></el-input>
+	    		</el-form-item>
+	    		<el-form-item v-if="proration_type==2" label="元/度" :label-width="formLabelWidth">
+	      			<el-input v-model="unit" autocomplete="off"></el-input>
+	    		</el-form-item>
+	    		<el-form-item label="合作主体" :label-width="formLabelWidth">
+	    			<el-select v-model="xlvrenType" placeholder="请选择">
+	    				<el-option label="深圳市绿色星球互联新能源科技有限公司" value="1"></el-option>
+	    				<el-option label="北京绿星小绿人科技有限公司" value="2" selected></el-option>
+	    			</el-select>
+	    		</el-form-item>
+	    		<el-form-item label="银行名称" :label-width="formLabelWidth">
+	      			<el-input v-model="bankName" autocomplete="off"></el-input>
+	    		</el-form-item>
+	    		<el-form-item label="银行账户" :label-width="formLabelWidth">
+	      			<el-input v-model="bankAccount" autocomplete="off"></el-input>
+	    		</el-form-item>
+	    		<el-form-item label="用户邮箱" :label-width="formLabelWidth">
+	      			<el-input v-model="email" autocomplete="off"></el-input>
+	    		</el-form-item>
+	    		<el-form-item label="备注">
+	    			<el-input v-model="comment" type="textarea" autosize placeholder="请输入内容"></el-input>
 	    		</el-form-item>
   			</el-form>
   			<div slot="footer" class="dialog-footer">
     			<el-button @click="isNew=false">取 消</el-button>
-    			<el-button type="primary" @click="isNew=false">确 定</el-button>
+    			<el-button type="primary" @click="createNewPartner">确 定</el-button>
   			</div>
 		</el-dialog>
 	</div>
@@ -124,9 +153,17 @@
 		name: '',
 		data() {
 			return{
-				partnerName: '',//合作伙伴名称
-				coo_type: '',   //伙伴类型
-				settlement_cycle: '',//结算周期
+				partnerName: '',		//合作伙伴名称
+				coo_type: '',   		//伙伴类型
+				settlement_cycle: '',	//结算周期
+				proration_type: '',		//分成方式
+				proration: '',			//分成比例
+				unit: '',				//度数单位
+				xlvrenType: '2',		//合作主体
+				bankName: '',			//银行名称
+				bankAccount: '',		//银行账户
+				email: '',              //邮箱
+				comment: '',            //备注
 				tableData: [],
 				key: '',
 				partnerType: '',
@@ -195,6 +232,20 @@
 						text: '实时结算',
 						value: '8'
 					}
+				],
+				prorationTypeDic: [
+					{
+						text: '按比例分成',
+						value: '1'
+					},
+					{
+						text: '按度数结算',
+						value: '2'
+					},
+					{
+						text: '按业务类型结算',
+						value: '-1'
+					}
 				]
 			}
 		},
@@ -205,7 +256,21 @@
 			this.getPartnerList(1);
 		},
 		watch: {
-
+			isNew: function(val) {
+				if (val == false) {
+					this.partnerName      = '';
+					this.coo_type         = '';
+					this.settlement_cycle = '';
+					this.proration_type   = '';
+					this.proration        = '';
+					this.xlvrenType       = '2';
+					this.bankName         = '';		
+					this.bankAccount      = '';	
+					this.email            = '';             
+					this.comment          = '';
+					this.unit             = '';
+				}
+			}
 		},
 		methods: {
 			/**
@@ -214,7 +279,7 @@
 			 */
 			getPartnerList(currentPage) {
 				console.log('当前页：'+currentPage);
-				var self = this;
+				let self = this;
 				var requestData = {
 					num: 20,
 					page: currentPage
@@ -250,6 +315,30 @@
 			        val = filters[i]
 			    }
 			    console.log('value:'+val);
+			},
+			/**
+			 * 创建合作伙伴
+			 */
+			createNewPartner() {
+				let self = this;
+				let newData = {
+					partnerName: self.partnerName,
+					partnerType: self.partnerType,
+					timeCycle: self.settlement_cycle,
+					settlementType: self.proration_type,
+					proration: self.proration,
+					bank: self.bankName,
+					bankAccount: self.bankAccount,
+					xlvrenType: self.xlvrenType,
+					email: self.email,
+					comment: self.comment,
+					unit: self.unit
+				};
+				httpRequest({
+					url: 'addPartner.json',
+					method: 'GET',
+					data: newData
+				})
 			}
 		}
 	}
