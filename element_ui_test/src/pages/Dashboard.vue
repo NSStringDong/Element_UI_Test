@@ -1,4 +1,4 @@
-<style>
+<style scoped>
 	.first-page {
 		margin-bottom: 10px;
 		font-size: 20px;

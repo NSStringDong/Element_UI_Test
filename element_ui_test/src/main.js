@@ -16,6 +16,7 @@ Vue.use(ElementUI)
 Vue.prototype.$http = httpRequest;
 Vue.prototype.$message = Message;
 Vue.prototype.$loading = Loading;
+//Vue.prototype.$dialog = Dialog;
 Vue.prototype.$md5 = md5;
 
 //遍历filters,绑定到全局

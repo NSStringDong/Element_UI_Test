@@ -1,4 +1,4 @@
-<style scope>
+<style scoped>
     .login-wrap{
         position: relative;
         width:100%;
@@ -54,7 +54,7 @@
     .el-form-item {
     	margin-bottom: 0px;
     }
-    .el-form-item div {
+    .box-card>>>.el-form-item div {
     	margin-left: 0px !important; 
     }
 </style>

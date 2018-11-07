@@ -58,14 +58,14 @@
 			  	</el-input>
 			</div>
 			<div class="search-btn">
-				<el-button class="new-btn" type="success">新建</el-button>
+				<el-button class="new-btn" type="success" @click="isNew=true">新建</el-button>
 			</div>
 		</div>
 		<div class="table-content">
 			<el-table :data="tableData" size="medium" border @cell-dblclick="goToDetail" @filter-change="filterHandler">
     			<el-table-column align="center" prop="partnerId" label="ID"></el-table-column>
     			<el-table-column align="center" prop="partnerName" label="名称"></el-table-column>
-    			<el-table-column align="center" prop="partnerType" label="类型" column-key="partnerType" :filters="this.partnerTypeData" :filter-multiple="false">
+    			<el-table-column align="center" prop="partnerType" label="类型" column-key="partnerType" :filters="this.partnerTypeDic" :filter-multiple="false">
     				<template slot-scope="scope">
     					<p>{{scope.row.partnerType | getPartnertype}}</p>
     				</template>
@@ -91,8 +91,31 @@
   			</el-table>
   			<v-page @pageTurn="getPartnerList"></v-page>
 		</div>
+		<el-dialog title="新建合作伙伴" :visible.sync="isNew" center width="30%">
+  			<el-form>
+	    		<el-form-item v-model="partnerName" label="名称" :label-width="formLabelWidth">
+	      			<el-input autocomplete="off"></el-input>
+	    		</el-form-item>
+	    		<el-form-item label="伙伴类型" :label-width="formLabelWidth">
+	      			<el-select v-model="coo_type" placeholder="请选择">
+	        			<el-option v-for="item in partnerTypeDic" :key="item.value" :label="item.text" :value="item.value"></el-option>
+	      			</el-select>
+	    		</el-form-item>
+	    		<el-form-item label="结算周期" :label-width="formLabelWidth">
+	    			<el-select v-model="settlement_cycle" placeholder="请选择">
+	    				<el-option v-for="item in settlementCycleDic" :key="item.value" :label="item.text" :value="item.value"></el-option>
+	    			</el-select>
+	    		</el-form-item>
+	    		<el-form-item label="分成方式" :label-width="formLabelWidth">
+	    			
+	    		</el-form-item>
+  			</el-form>
+  			<div slot="footer" class="dialog-footer">
+    			<el-button @click="isNew=false">取 消</el-button>
+    			<el-button type="primary" @click="isNew=false">确 定</el-button>
+  			</div>
+		</el-dialog>
 	</div>
-	
 </template>
 <script>
 	import {httpRequest} from '../assets/js/httpRequest.js'
@@ -101,13 +124,15 @@
 		name: '',
 		data() {
 			return{
+				partnerName: '',//合作伙伴名称
+				coo_type: '',   //伙伴类型
+				settlement_cycle: '',//结算周期
 				tableData: [],
 				key: '',
-				partnerTypeData:[
-					{
-						text: '所有类型',
-						value: ''
-					},
+				partnerType: '',
+				isNew: false,
+				formLabelWidth: '80px',
+				partnerTypeDic: [
 					{
 						text: '小绿人',
 						value: '0'
@@ -141,7 +166,36 @@
 						value: '7'
 					}
 				],
-				partnerType: ''
+				settlementCycleDic: [
+					{
+						text: '每日',
+						value: '1'
+					},
+					{
+						text: '每周',
+						value: '2'
+					},
+					{
+						text: '每月',
+						value: '3'
+					},
+					{
+						text: '每季度',
+						value: '4'
+					},
+					{
+						text: '每半月',
+						value: '5'
+					},
+					{
+						text: '每两月',
+						value: '7'
+					},
+					{
+						text: '实时结算',
+						value: '8'
+					}
+				]
 			}
 		},
 		components:{
