@@ -291,23 +291,6 @@
 	}
 </script>
 <style>
-	.sidebar{
-        display: block;
-        position: absolute;
-        left: 0;
-        top: 73px;
-        bottom:0;
-        overflow-y: scroll;
-    }
-    .sidebar::-webkit-scrollbar{
-        width: 0;
-    }
-    .sidebar-el-menu:not(.el-menu--collapse){
-        width: 150px;
-    }
-    .sidebar > ul {
-        height:100%;
-    }
     element.style {
     	padding-left: 0 !important;
 	}

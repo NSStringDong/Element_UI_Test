@@ -7,6 +7,8 @@ const dashboard = r => require.ensure([], () => r(require('../pages/dashboard.vu
 
 const partnerList = r => require.ensure([], () => r(require('../pages/base_partner.vue')), 'partnerList');
 
+const partnerDetail = r => require.ensure([], () => r(require('../pages/base_partner_detail.vue')), 'partnerDetail');
+
 const login = r => require.ensure([], () => r(require('../pages/login.vue')), 'login');
 
 Vue.use(Router);
@@ -38,6 +40,14 @@ export default new Router({
             	meta: {
             		title: '合作伙伴'
             	}
+            },
+            {
+                path: '/partnerDetail',
+                name: 'partnerDetail',
+                component: partnerDetail,
+                meta: {
+                    title: '合作伙伴详情'
+                }
             }
 		]
 	},

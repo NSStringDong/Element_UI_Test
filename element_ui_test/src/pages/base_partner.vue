@@ -1,57 +1,17 @@
 <style>
-	.list-content {
-		background-color: #fff;
-	}
-	.top-break {
-		height: 44px;
-		border-bottom: 1px solid #dcdcdc
-	}
-	.el-breadcrumb {
-		height: 44px;
-		line-height: 44px;
-		margin-left: 16px;
-	}
-	.serach-content {
-		height: 92px
-	}
-	.search-input {
-		width: 35%;
-		float: left;
-		margin-top: 30px;
-		margin-left: 16px;
-	}
-	.search-btn {
-		width: 60%;
-		float: right;
-		margin-top: 30px;
-	}
-	.new-btn {
-		float: right;
-		margin-right: 16px;
-	}
 	.el-form input {
 		width: 320px;
 	}
 	.el-input :focus {
 		border: 1px solid #65be01;
 	}
-	.table-content {
-		margin-left: 16px;
-		margin-right: 16px;
-		margin-top: 10px;
-		margin-bottom: 30px;
-		/*padding-right: 16px;*/
-		text-align: center;
-	}
 </style>
 <template>
 	<div class="list-content">
 		<div class="top-break">
 			<el-breadcrumb separator-class="el-icon-arrow-right">
+			  	<el-breadcrumb-item>运营管理</el-breadcrumb-item>
 			  	<el-breadcrumb-item :to="{ path: '/partnerList' }">合作伙伴</el-breadcrumb-item>
-			  	<el-breadcrumb-item>活动管理</el-breadcrumb-item>
-			  	<el-breadcrumb-item>活动列表</el-breadcrumb-item>
-			  	<el-breadcrumb-item>活动详情</el-breadcrumb-item>
 			</el-breadcrumb>
 		</div>
 		<div class="serach-content">
@@ -166,9 +126,10 @@
 				comment: '',            //备注
 				tableData: [],
 				key: '',
-				partnerType: '',
+				partnerType: null,
 				isNew: false,
 				formLabelWidth: '80px',
+				nowPage: null,
 				partnerTypeDic: [
 					{
 						text: '小绿人',
@@ -280,12 +241,12 @@
 			getPartnerList(currentPage) {
 				console.log('当前页：'+currentPage);
 				let self = this;
+				self.nowPage = currentPage;
 				var requestData = {
 					num: 20,
-					page: currentPage
-				}
-				if (self.key) {
-					requestData.key = self.key;
+					page: currentPage,
+					key: self.key,
+					partnerType: self.partnerType
 				}
 				httpRequest({
 					url: 'listPartner.json',
@@ -301,20 +262,33 @@
 			 */
 			goToDetail(row) {
 				console.log('详情页:'+row.partnerId);
+				this.$router.push({
+	    			name: 'partnerDetail',
+	    			query: {
+	    				partnerId: row.partnerId
+	    			}
+	    		});
 			},
 			/**
 			 * 类型筛选回调
 			 * @param  {array} filters 筛选数组
 			 */
 			filterHandler(filters) {
+				let self = this;
 				console.info(filters);
-				let row = null
-      			let val = null
+				let row = null;
+      			let val = null;
       			for (const i in filters) {
 			        row = i // 保存 column-key的值，如果事先没有为column-key赋值，系统会自动生成一个唯一且恒定的名称
 			        val = filters[i]
 			    }
-			    console.log('value:'+val);
+			    console.info('value:'+row);
+			    self.partnerType = val[0];
+			    if (self.partnerType == null||self.partnerType == undefined) {
+			    	self.partnerType = '';
+			    }
+			    console.log('partnerType:'+self.partnerType);
+			    self.getPartnerList(self.nowPage);
 			},
 			/**
 			 * 创建合作伙伴
@@ -323,7 +297,7 @@
 				let self = this;
 				let newData = {
 					partnerName: self.partnerName,
-					partnerType: self.partnerType,
+					partnerType: self.coo_type,
 					timeCycle: self.settlement_cycle,
 					settlementType: self.proration_type,
 					proration: self.proration,
