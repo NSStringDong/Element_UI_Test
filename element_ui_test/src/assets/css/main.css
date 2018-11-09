@@ -116,7 +116,7 @@ ul {
 .top-break {
 	/*height: 44px;*/
 	border-bottom: 1px solid #dcdcdc;
-	padding-left: 16px;
+	padding: 16px;
 	overflow: hidden;
 }
 .el-breadcrumb {

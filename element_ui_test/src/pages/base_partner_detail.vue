@@ -4,6 +4,41 @@
 	}
 	.tab-ul {
 		border: 1px solid #dcdcdc;
+		border-bottom: none;
+	}
+	.tab-ul li {
+		border-bottom: 1px solid #dcdcdc;
+		padding: 13px 50px;
+		line-height: 1.2;
+		overflow: hidden;
+	}
+	.tab-ul li h2 {
+		word-break: break-all;
+    	word-wrap: break-word;
+    	font-size: 14px;
+    	font-weight: normal;
+    	line-height: 20px;
+    	float: left;
+    	color: #8d8d8d;
+    	width: 150px;
+	}
+	.tab-ul li p {
+		width: 500px;
+    	word-break: break-all;
+    	word-wrap: break-word;
+    	font-size: 14px;
+    	font-weight: normal;
+    	line-height: 20px;
+    	float: left;
+	}
+	.tab-ul li a {
+		float: right;
+    	color: #0080a5;
+    	font-size: 14px;
+    	text-decoration: underline;
+	}
+	.firstItem {
+		background: #f4f5f9;
 	}
 </style>
 <template>
@@ -20,8 +55,12 @@
 			<el-tabs v-model="message">
     			<el-tab-pane label="基础资料" name="first">
     				<ul class="tab-ul">
-    					<li>基础资料</li>
-    					<li>基础资料</li>
+    					<li class="firstItem">基础信息</li>
+    					<li>
+    						<h2>ID</h2>
+    						<p>123456</p>
+    						<a href="javascript:void(0)">修改</a>
+    					</li>
     					<li>基础资料</li>
     					<li>基础资料</li>
     					<li>基础资料</li>
