@@ -149,21 +149,21 @@
 						base.partnerID,
 						base.partnerName,
 						base.partnerType,
-						base.timeCycle,//结算周期
-						base.settlementType,//分成方式
-						base.proration,//分成比例
-						base.unit,//度数分成
-						base.discountFlag,//4S店优惠
-						base.xlvrenType,//公司主体
-						base.discountStartDate,//优惠时间
-						base.bank,//开户银行
-						base.bankCityName,//开户城市
-						base.bankUserName,//银行户名
-						base.bankAccount,//银行账户
-						base.email,//邮箱地址
-						res.username,//管理员
-						res.userMobile,//管理员电话
-						base.comment//备注
+						base.timeCycle,			//结算周期
+						base.settlementType,	//分成方式
+						base.proration,			//分成比例
+						base.unit,				//度数分成
+						base.discountFlag,		//4S店优惠
+						base.xlvrenType,		//公司主体
+						base.discountStartDate,	//优惠时间
+						base.bank,				//开户银行
+						base.bankCityName,		//开户城市
+						base.bankUserName,		//银行户名
+						base.bankAccount,		//银行账户
+						base.email,				//邮箱地址
+						res.username,			//管理员
+						res.userMobile,			//管理员电话
+						base.comment 			//备注
 					];
 					self.dataStringifyToJson(baseData);
 				})
@@ -171,10 +171,12 @@
 			dataStringifyToJson(arr) {
 				let self = this;
 				for (var i = 0; i < self.baseArray.length; i++) {
-					self.baseDetail.push({
-						name: self.baseArray[i],
-						value: arr[i]
-					})
+					self.baseDetail.push(
+						{
+							name: self.baseArray[i],
+							value: arr[i]
+						}
+					)
 				}
 			}
 		}
